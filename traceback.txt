@@ -1,0 +1,72 @@
+﻿I'm sorry, but an uncaught exception occurred.
+
+While running game code:
+  File "renpy/common/00start.rpy", line 233, in script call
+    call _splashscreen from _call_splashscreen_1
+  File "game/script.rpy", line 466, in script call
+    call vizov("{color=#60A64D}Леший{/color}", "{color=#60A64D}Репку мою умной вырасти в Воде Живой. У тебя же котёл волшебный!{/color}",  ["Репка"], [1], sal=10) from _call_vizov
+  File "game/script.rpy", line 422, in script
+    call screen gr
+  File "renpy/common/000statements.rpy", line 531, in execute_call_screen
+    store._return = renpy.call_screen(name, *args, **kwargs)
+  File "game/script.rpy", line 343, in _Pause_
+    renpy.pause(0.08, hard=True)
+Exception: Cannot start an interaction in the middle of an interaction, without creating a new context.
+
+-- Full Traceback ------------------------------------------------------------
+
+Full traceback:
+  File "renpy/common/00start.rpy", line 233, in script call
+    call _splashscreen from _call_splashscreen_1
+  File "game/script.rpy", line 466, in script call
+    call vizov("{color=#60A64D}Леший{/color}", "{color=#60A64D}Репку мою умной вырасти в Воде Живой. У тебя же котёл волшебный!{/color}",  ["Репка"], [1], sal=10) from _call_vizov
+  File "game/script.rpy", line 422, in script
+    call screen gr
+  File "D:\Renpy\renpy-7.1.3-sdk\renpy\ast.py", line 1949, in execute
+    self.call("execute")
+  File "D:\Renpy\renpy-7.1.3-sdk\renpy\ast.py", line 1937, in call
+    return renpy.statements.call(method, parsed, *args, **kwargs)
+  File "D:\Renpy\renpy-7.1.3-sdk\renpy\statements.py", line 277, in call
+    return method(parsed, *args, **kwargs)
+  File "renpy/common/000statements.rpy", line 531, in execute_call_screen
+    store._return = renpy.call_screen(name, *args, **kwargs)
+  File "D:\Renpy\renpy-7.1.3-sdk\renpy\exports.py", line 2905, in call_screen
+    rv = renpy.ui.interact(mouse="screen", type="screen", roll_forward=roll_forward)
+  File "D:\Renpy\renpy-7.1.3-sdk\renpy\ui.py", line 297, in interact
+    rv = renpy.game.interface.interact(roll_forward=roll_forward, **kwargs)
+  File "D:\Renpy\renpy-7.1.3-sdk\renpy\display\core.py", line 2702, in interact
+    repeat, rv = self.interact_core(preloads=preloads, trans_pause=trans_pause, **kwargs)
+  File "D:\Renpy\renpy-7.1.3-sdk\renpy\display\core.py", line 3518, in interact_core
+    rv = root_widget.event(ev, x, y, 0)
+  File "D:\Renpy\renpy-7.1.3-sdk\renpy\display\layout.py", line 998, in event
+    rv = i.event(ev, x - xo, y - yo, cst)
+  File "D:\Renpy\renpy-7.1.3-sdk\renpy\display\layout.py", line 998, in event
+    rv = i.event(ev, x - xo, y - yo, cst)
+  File "D:\Renpy\renpy-7.1.3-sdk\renpy\display\layout.py", line 998, in event
+    rv = i.event(ev, x - xo, y - yo, cst)
+  File "D:\Renpy\renpy-7.1.3-sdk\renpy\display\screen.py", line 714, in event
+    rv = self.child.event(ev, x, y, st)
+  File "D:\Renpy\renpy-7.1.3-sdk\renpy\display\layout.py", line 998, in event
+    rv = i.event(ev, x - xo, y - yo, cst)
+  File "D:\Renpy\renpy-7.1.3-sdk\renpy\display\behavior.py", line 463, in event
+    rv = run(action)
+  File "D:\Renpy\renpy-7.1.3-sdk\renpy\display\behavior.py", line 313, in run
+    new_rv = run(i, *args, **kwargs)
+  File "D:\Renpy\renpy-7.1.3-sdk\renpy\display\behavior.py", line 320, in run
+    return action(*args, **kwargs)
+  File "D:\Renpy\renpy-7.1.3-sdk\renpy\curry.py", line 43, in __call__
+    **dict(self.kwargs.items() + kwargs.items()))
+  File "game/script.rpy", line 343, in _Pause_
+    renpy.pause(0.08, hard=True)
+  File "D:\Renpy\renpy-7.1.3-sdk\renpy\exports.py", line 1480, in pause
+    rv = renpy.ui.interact(mouse='pause', type='pause', roll_forward=roll_forward)
+  File "D:\Renpy\renpy-7.1.3-sdk\renpy\ui.py", line 297, in interact
+    rv = renpy.game.interface.interact(roll_forward=roll_forward, **kwargs)
+  File "D:\Renpy\renpy-7.1.3-sdk\renpy\display\core.py", line 2680, in interact
+    raise Exception("Cannot start an interaction in the middle of an interaction, without creating a new context.")
+Exception: Cannot start an interaction in the middle of an interaction, without creating a new context.
+
+Windows-7-6.1.7601-SP1
+Ren'Py 7.3.5.606
+Potion not Poison 1.0
+Sun Jun 28 04:53:13 2020

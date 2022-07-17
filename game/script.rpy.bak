@@ -1,0 +1,529 @@
+﻿# Вы можете расположить сценарий своей игры в этом файле.
+
+# Определение персонажей игры.
+define e = Character('Эйлин', color="#c8ffc8")
+init:
+    image a1="a1.png"
+    image a2="a2.png"
+    image a3="a3.png"
+
+    image b1="b1.png"
+    image b2="b2.png"
+    image b3="b3.png"
+
+    image c1="c1.png"
+    image c2="c2.png"
+    image c3="c3.png"
+
+    image Stol = "Stol.jpg"
+    image beresta = "Beresta.png"
+    image kotel = "kotel.png"
+
+    image green_ = Solid("#29B80E")
+
+    image white_ = "white.png"
+
+
+init python:
+    import random
+    import time
+    EMPTY = ".."
+    arr_a=["a1", "a2", "a3"]
+    arr_b=["b1", "b2", "b3"]
+    arr_c=["c1", "c2", "c3"]
+
+    arr_random_first_elem = ["a1", "b1", "c1"]
+
+    board = [ EMPTY, EMPTY, EMPTY, EMPTY,EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,]
+   
+
+
+    spisok = ['K_RETURN', 'K_SPACE', 'K_KP_ENTER', 'K_SELECT']
+    arr_strelok = []
+
+    vsego_slovar = {
+            "Кристалл" : "a3",
+            "Мандрагора"  : "b3",
+            "Порошок" : "c3"
+            }
+
+    items_for_humans = []
+    items_for_code = []
+    item_count = []
+
+    money = 0
+    zp = 0
+    def cleaner():
+        global items_for_humans, items_for_code, item_count, board
+        items_for_humans = []
+        items_for_code = []
+        item_count = []
+        board = [ EMPTY, EMPTY, EMPTY, EMPTY,EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,]
+
+
+    def count_items(lst):
+        global items_for_code, item_count
+        counted = {}
+
+        for item in lst:
+            if item == "a3":
+                counted["Кристалл"] = item_count[items_for_code.index(item)]
+            elif item == "b3":
+                counted["Мандрагора"] = item_count[items_for_code.index(item)]
+            elif item == "c3":
+                counted["Порошок"] = item_count[items_for_code.index(item)]
+        return counted   
+
+
+    def zapros(items=[], items_count=[], random_=False, random_kol_vo=0, random_count=False, sal=0):
+            
+        global items_for_humans, items_for_code, item_count, board, zp
+        # Очищение всех списков и переменных при новом вызове функции
+        items_for_humans = []
+        items_for_code = []
+        item_count = []
+        board = [ EMPTY, EMPTY, EMPTY, EMPTY,EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY, EMPTY,]
+
+        zp = sal
+        # добавление названия вещей
+
+
+        # добавление кол-ва для каждой вещи
+        
+
+
+#####################################################################
+#                             Random                                #
+#####################################################################
+            
+#########################
+
+        if random_:
+            items_for_humans = []
+            items_for_code = []
+            ran_d_mass = ["a3", "b3", "c3"]
+
+            if random_kol_vo == 0:
+                ran_d_randint = 4 
+            else:
+                ran_d_randint = random_kol_vo+1
+
+            r = random.randint(2,ran_d_randint)
+            for i in range(1,r):
+                ran_d = random.choice(ran_d_mass)
+                for what in vsego_slovar.values():
+                    if ran_d == what:
+                        items_for_code.append(ran_d) 
+                        ran_d_mass.remove(ran_d)
+
+            for k in items_for_code:
+                if k == "a3":
+                    items_for_humans.append("Кристалл")
+                elif k == "b3":
+                    items_for_humans.append("Мандрагора")
+                elif k == "c3":
+                    items_for_humans.append("Порошок")
+
+       # если рандома нет                 
+        else:
+            for i in items:
+                for what in vsego_slovar.keys():
+                    if i.title() == what.title(): ## Сравниваем введенные значения с общим списком                     
+                        items_for_humans.append(i)
+                        items_for_code.append(vsego_slovar[i]) ## Добавляем в конечный список покупателя наши вещи
+
+
+
+            
+#######################
+        
+
+        if random_count:
+            for rand_chislo in range(len(items_for_code)):
+                r_count = renpy.random.randint(1,4) ## кол-во определенной вещи
+                item_count.append(r_count)
+        # если рандома нет        
+        else:
+            for i in items_count:
+                item_count.append(i)
+
+
+
+
+    def move_up():
+        time.sleep(0.02)
+        for _ in range(4):
+            for i in range(1,4): # строки
+
+                for j in range(4): # столбцы
+                    ind = j+(i*4)
+                    if board[ind] != EMPTY:
+                        
+                        ind_dop = str(board[ind])[0]
+                        print("ind_dop - "+str(ind_dop))
+
+                        ind_two = j+((i*4)-4)
+                        if board[ind_two] != EMPTY:
+                            ind_two_dop = int(board[ind_two][1])
+
+
+                        if (board[ind] == board[ind_two]):
+                            if ind_two_dop != 3:
+                                board[ind] = EMPTY
+                                if ind_dop == "a":
+                                    board[ind_two] = arr_a[ind_two_dop]
+
+                                if ind_dop == "b":
+                                    board[ind_two] = arr_b[ind_two_dop]
+
+                                if ind_dop == "c":
+                                    board[ind_two] = arr_c[ind_two_dop]
+
+                                
+                            
+
+                        elif board[ind_two] == EMPTY:
+                            if board[ind] != EMPTY:
+                                board[ind_two] = board[ind]
+
+                                board[ind] = EMPTY
+                                
+
+
+    def move_down():
+        time.sleep(0.02)
+        for _ in range(4):
+            for i in range(2,-1,-1): # строки
+                for j in range(4): # столбцы
+                    ind = j+(i*4)
+                    if board[ind] != EMPTY:
+                        
+                        ind_dop = str(board[ind])[0]
+
+                        ind_two = j+((i*4)+4)
+
+                        if board[ind_two] != EMPTY:
+                            ind_two_dop = int(board[ind_two][1])
+
+                        if (board[ind] == board[ind_two]):
+                            if ind_two_dop != 3:
+                                board[ind] = EMPTY
+                                if ind_dop == "a":
+                                    board[ind_two] = arr_a[ind_two_dop]
+
+                                if ind_dop == "b":
+                                    board[ind_two] = arr_b[ind_two_dop]
+
+                                if ind_dop == "c":
+                                    board[ind_two] = arr_c[ind_two_dop]
+
+                        elif board[ind_two] == EMPTY:
+                            if board[ind] != EMPTY:
+                                board[ind_two] = board[ind]
+                                board[ind] = EMPTY
+                                
+
+    def move_right():
+        time.sleep(0.02)
+        for _ in range(4):
+
+            for j in range(2,-1,-1): # столбцы
+                for i in range(4): # строки
+                    ind = j+(i*4)
+                    if board[ind] != EMPTY:
+                        
+                        ind_dop = str(board[ind])[0]
+                        ind_two = j+((i*4)+1)
+
+                        if board[ind_two] != EMPTY:
+                            ind_two_dop = int(board[ind_two][1])
+
+
+                        if (board[ind] == board[ind_two]) and (board[ind] != EMPTY):
+                            if ind_two_dop != 3:
+                                board[ind] = EMPTY
+                                if ind_dop == "a":
+                                    board[ind_two] = arr_a[ind_two_dop]
+
+                                if ind_dop == "b":
+                                    board[ind_two] = arr_b[ind_two_dop]
+
+                                if ind_dop == "c":
+                                    board[ind_two] = arr_c[ind_two_dop]
+
+                                
+                            
+                            
+
+                        elif board[ind_two] == EMPTY:
+                            if board[ind] != EMPTY:
+                                board[ind_two] = board[ind]
+                                board[ind] = EMPTY
+                                
+    def move_left():
+        time.sleep(0.02)
+        for _ in range(4):
+            for j in range(1,4): # столбцы
+                for i in range(4): # строки
+                    ind = j+(i*4)
+                    if board[ind] != EMPTY:
+                        
+                        ind_dop = str(board[ind])[0]
+                        ind_two = j+((i*4)-1)
+
+                        if board[ind_two] != EMPTY:
+                            ind_two_dop = int(board[ind_two][1])
+
+                        if (board[ind] == board[ind_two]) and (board[ind] != EMPTY):
+                            if ind_two_dop != 3:
+                                board[ind] = EMPTY
+                                if ind_dop == "a":
+                                    board[ind_two] = arr_a[ind_two_dop]
+
+                                if ind_dop == "b":
+                                    board[ind_two] = arr_b[ind_two_dop]
+
+                                if ind_dop == "c":
+                                    board[ind_two] = arr_c[ind_two_dop]                            
+
+                        elif board[ind_two] == EMPTY:
+                            if board[ind] != EMPTY:
+                                board[ind_two] = board[ind]
+                                board[ind] = EMPTY
+                                
+
+
+    def check_win():
+        global items_for_humans, item_count, items_for_code, money
+        check_lose = 0
+        dop = 0
+        for i in board:
+            dop +=1
+            if i in items_for_code:
+                item_count[items_for_code.index(i)]-=1
+                print("item_count - " + str(item_count))
+                board[dop-1]=EMPTY
+
+                if item_count[items_for_code.index(i)] == 0:
+                    del(items_for_humans[items_for_code.index(i)])
+                    del(item_count[items_for_code.index(i)])
+                    del(items_for_code[items_for_code.index(i)])
+                    print("items_for_humans - " + str(items_for_humans))
+
+
+            if len(items_for_humans) == 0:
+                money+=zp
+                return "win"
+
+            if i != EMPTY:
+                check_lose+=1
+
+        if check_lose == 16:
+            return "lose"
+
+
+    def rand_append_():
+        global board
+        while True:
+            rnd = random.randint(0,15)
+            r_d = random.choice(arr_random_first_elem)
+            if board[rnd] == EMPTY: 
+                board[rnd] = r_d
+                print(" Создалось в точке - "+str(rnd+1))
+                break
+            else:
+                continue
+
+    rand_append = renpy.curry(rand_append_)
+    move_up = renpy.curry(move_up)
+    move_down = renpy.curry(move_down)
+    move_right = renpy.curry(move_right)
+    move_left = renpy.curry(move_left)
+
+
+
+screen gr:
+    add "Stol.jpg"
+    add "kotel.png":
+        align(0.95,0.5)
+    add "Beresta.png":
+        align(0.2, 0.5)
+
+    add "meshok.png":
+        align(0.0,0.0)
+
+    text "[money]":
+        align(0.04,0.1)
+
+    frame align(0.215,0.6) background None xminimum 390 yminimum 512 xmaximum 390 ymaximum 512 padding(15,15):
+        has vbox
+        text "Заказ:  " align(0.5,0.5)
+        hbox box_wrap True align(0.5,0.5) spacing 15:
+            $tmp = count_items(items_for_code)
+            for key in tmp:
+                text "%s x %d"%(key,tmp[key]) align(0.5,0.5)
+            text "\nПлата - [zp] монет" align(0.5,0.5)
+
+    grid 4 4:
+        align (0.79,0.5)
+        spacing 2
+        for i in board:
+
+            if i == EMPTY:
+                add "white.png"
+
+            else: 
+                add i
+
+    for i in spisok:
+        key i action NullAction()
+    key "K_UP" action (move_up(), rand_append(), Return())
+    key "K_DOWN" action (move_down(), rand_append(), Return())
+    key "K_RIGHT" action (move_right(), rand_append(), Return())
+    key "K_LEFT" action (move_left(), rand_append(), Return())
+
+
+init:
+    image d_nach = "d_nach.jpg"
+    image dim = "dim.jpg"
+    image babka = "babka.png"
+
+
+
+
+define avtor = Character("", color="EFDD57")
+define baba = Character("Баба", color="EFDD57")
+
+define arr_fraz_babri=["Пепка особая у меня глазастая. Не всякий дед такую вытащит.", "Трава весенная Пострелом зовётся. Пыльча её любую пчелу с ног валит, а человек и подавно!",
+"Яхонт расчудесный горючий. Горит горит ясно и не гаснет.", "Был у меня кот. Да весь вышел... Из дому погулять!", "Вот где вся петрушка? Опять Русалка стащила? Надо оберег сделать... Так, а где полынь?!",
+"Не люблю сказочников. Платят только своими выдумками. Но зубы заговаривают знатно!"]
+
+define gg = 0
+label vizov(gay="", _text_="", items=[], items_count=[], random_=False, random_kol_vo=0, random_count=False, sal=0):
+    $ gg = 0
+    gay "[_text_]"
+    $ zapros(items, items_count, random_, random_kol_vo, random_count, sal)
+    $ rand_append_()
+    while not check_win():
+        call screen gr
+
+    if check_win() == "lose":
+        avtor "Увы, ты проиграл"
+        $gg=1
+    elif check_win() == "win":
+        $ foo = random.choice(arr_fraz_babri)
+        baba "[foo]"
+    $cleaner()
+    return 
+
+
+
+label splashscreen:
+    jump start
+
+label start:
+
+    $ renpy.pause(1.0, hard = True)
+    play music "audio/pp.mp3" fadeout 102 loop
+
+    scene d_nach
+    baba "{color=#441A24}Ох, тяжко быть Ягою...{/color}" 
+    baba "{color=#441A24}Изба вот-вот развалится!{/color}"
+    baba "{color=#441A24}А чинить – силушки уж прежней нет.{/color}"
+    $ renpy.pause(1, hard = True)
+    play music "audio/magic.mp3" fadeout 89 loop
+    scene Stol
+    show kotel:
+        align(0.95,0.5)
+
+    baba "{color=#441A24}Зелье варить придётся и продавать.{/color}"
+    baba "{color=#EFDD57}{size=+3}Иноче без крыши над головой останусь!{/size}{/color}"
+
+    # hide Stol
+    # hide kotel
+    # jump igra
+label igra:
+
+    call vizov("Русалка", "Дай пыльцу Сон-травы, а то лягушки покоя не дают, орут и орут", ["Порошок"], [1], sal=10)
+    if gg==1:
+        jump igra 
+
+label igra_1:
+    call vizov("Леший", "Репку мою вырасти в Воде Живой. Котёл же твой бездонный..",  ["Мандрагора"], [1], sal=20) 
+    if gg==1:
+        jump igra_1 
+
+
+label igra_2:
+    call vizov("Змей", "Яхонта много надо для дыхания горючего, а мало его. Поколдуй, бабка.", ["Кристалл"], [1], sal=30) 
+    if gg==1:
+        jump igra_2 
+
+label igra_3:
+    call vizov("Баюн", "Сон-трава и Бедовая голова. Вот тебе бутон и кочерыжка. Делай сама, как знаешь..", ["Мандрагора","Порошок"], [1,1], sal=40)
+    if gg==1:
+        jump igra_3 
+
+label igra_4:
+    call vizov("Домовой", "Я репку тебе на ужин зажарую, если яхонт мне дашь горючий..",  ["Кристалл", "Порошок"], [1,1], sal=50)
+    if gg==1:
+        jump igra_4 
+
+label igra_5:
+    call vizov("Банник", "Яхонта и Сон-травы дай. Чиркну, подпалю, баню растоплю.", ["Кристалл", "Мандрагора",], [1,1], sal=60) 
+    if gg==1:
+        jump igra_5 
+
+label igra_6:
+    call vizov("Чёрт", "Яхотн горючий для дыхания", ["Кристалл", "Мандрагора","Порошок"], [1,1,1], sal=70) 
+    if gg==1:
+        jump igra_6 
+
+    jump end
+
+
+   
+
+label end:
+    scene black with dissolve
+    scene dim
+    show babka
+    stop music fadeout 1
+    avtor "{color=#EFDD57}Идея, текст, геймдизайн – Владимир Шашорин.{/color}"
+    avtor "{color=#EFDD57}Рисунки, геймдизайн – Регина Загирова.{/color}"
+    avtor "{color=#EFDD57}Код, геймдизайн – Ярик Ланг.{/color}" 
+    avtor "{color=#EFDD57}Звуковое оформление – Карим Ахмадиев, Сергей Петрушкин.{/color}"
+
+    menu:
+        "Поздравляем! Ты прошел игру! Что будешь делать дальше?"
+
+        "Бесконечный режим":
+            jump inf_mod
+            
+
+        "Выйти из игры":
+            $ renpy.quit(0)
+
+
+label inf_mod:
+    $arr_name=["Русалка","Леший","Змей", "Баюн", "Кто-то", "Чёрт", "Тот-Самый-Кодер", "Человек. Просто человек.", "Банник", "Домовой"]
+
+    ## Бесконечные заказы
+    while True:
+        $r_n = random.choice(arr_name)
+        $r_ch_1 = random.choice(['свеклу', 'банан', 'горох', 'грибы'])
+        $r_ch_2 = random.choice(['Жизнь не мила и', 'Живу на ура, но'])
+
+        $arr_slova=["Сделай что-нибудь, а то {} покоя не дает. Бесит".format(r_n), "Помоги вырастить {}. Котёл же твой бездонный...".format(r_ch_1),
+        "{} глупа голова. Помоги, бабка.".format(r_ch_2),]
+
+        $ random_sal = random.randint(10, 100) # рандомное число от 100 до 1000 
+        call vizov(random.choice(arr_name), random.choice(arr_slova), random_=True, random_count=True, sal=random_sal) 
+        
+
+
+
+
+
+
+
